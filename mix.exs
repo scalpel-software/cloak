@@ -1,28 +1,49 @@
-defmodule Cloak.MixProject do
+defmodule Cloak.Mixfile do
   use Mix.Project
 
   def project do
     [
       app: :cloak,
-      version: "0.1.0",
-      elixir: "~> 1.12",
+      version: "0.4.0",
+      elixir: "~> 1.0",
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      source_url: "https://github.com/danielberkompas/cloak",
+      description: "Encrypted fields for Ecto.",
+      package: package(),
+      deps: deps(),
+      docs: docs()
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
-    [
-      extra_applications: [:logger]
-    ]
+    [applications: [:ecto, :jason, :logger]]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:ecto, ">= 1.0.0"},
+      {:jason, "~> 1.2", optional: true},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :docs]},
+      {:inch_ex, ">= 0.0.0", only: :docs}
+    ]
+  end
+
+  defp docs do
+    [
+      readme: "README.md",
+      main: Cloak
+    ]
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs"],
+      maintainers: ["Daniel Berkompas"],
+      licenses: ["MIT"],
+      links: %{
+        "Github" => "https://github.com/danielberkompas/cloak"
+      }
     ]
   end
 end
